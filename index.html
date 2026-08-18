@@ -15,7 +15,7 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background-color: #0f172a; color: #f8fafc; line-height: 1.5; }
-    header { display: flex; justify-space-between; align-items: center; padding: 1.5rem 2rem; background: #1e293b; border-bottom: 1px solid #334155; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; background: #1e293b; border-bottom: 1px solid #334155; }
     header a { color: #38bdf8; font-weight: 700; text-decoration: none; font-size: 1.25rem; }
     header a span { color: #fff; }
     nav ul { display: flex; list-style: none; gap: 1.5rem; }
@@ -99,14 +99,15 @@
   </footer>
 
   <script>
-    // Initialize Firebase (Ensure your Firebase Config keys are added here)
+    // 1. Firebase Config
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_STORAGE_BUCKET",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyAhEkz6bZiBZiS1lCIuA0z1HPzET_WEcrA",
+      authDomain: "skybroker.firebaseapp.com",
+      projectId: "skybroker",
+      storageBucket: "skybroker.firebasestorage.app",
+      messagingSenderId: "223210511771",
+      appId: "1:223210511771:web:cf664ccfb9f7a3a300953e",
+      measurementId: "G-V2JC67NB14"
     };
 
     if (!firebase.apps.length) {
