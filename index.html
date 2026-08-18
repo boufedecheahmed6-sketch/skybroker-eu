@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkyBroker EU - Zero-Commission Aviation Marketplace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: #0f172a; color: #f8fafc; line-height: 1.5; }
+    header { display: flex; justify-space-between; align-items: center; padding: 1.5rem 2rem; background: #1e293b; border-bottom: 1px solid #334155; }
+    header a { color: #38bdf8; font-weight: 700; text-decoration: none; font-size: 1.25rem; }
+    header a span { color: #fff; }
+    nav ul { display: flex; list-style: none; gap: 1.5rem; }
+    nav a { color: #94a3b8; text-decoration: none; font-weight: 500; }
+    nav a:hover { color: #f8fafc; }
+    .hero { text-align: center; padding: 4rem 1rem; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .hero h1 span { color: #38bdf8; }
+    .hero p { color: #94a3b8; font-size: 1.1rem; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
+    .btn-primary { background: #0284c7; color: #fff; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; }
+    .btn-primary:hover { background: #0369a1; }
+    
+    /* Modal Styles */
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); }
+    .modal-content { background: #1e293b; margin: 10% auto; padding: 2rem; border-radius: 12px; max-width: 500px; border: 1px solid #334155; position: relative; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .close { color: #94a3b8; font-size: 1.5rem; cursor: pointer; }
+    form label { display: block; margin-top: 1rem; color: #94a3b8; font-size: 0.875rem; margin-bottom: 0.25rem; }
+    form input, form textarea { width: 100%; padding: 0.75rem; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; }
+    
+    footer { text-align: center; padding: 2rem; border-top: 1px solid #334155; color: #64748b; font-size: 0.875rem; margin-top: 3rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#">✈️ Sky<span>Broker</span> EU</a>
+    <nav>
+      <ul>
+        <li><a href="#marketplace">Marketplace</a></li>
+        <li><a href="#tools">Tools</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Find Your Next Aircraft.<br><span>Fly With Absolute Confidence.</span></h1>
+    <p>Zero-commission European aviation marketplace.</p>
+  </section>
+
+  <main class="container" id="marketplace">
+    <div class="card">
+      <h3>✈️ Live Marketplace Listings</h3>
+      <p style="color: #94a3b8; margin-top: 0.5rem;">Browse available aircraft across Europe.</p>
+      <!-- Aircraft cards render here -->
+    </div>
+  </main>
+
+  <!-- DIRECT MESSAGING MODAL -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>📩 Contact Seller</h3>
+        <span class="close" onclick="closeContactModal()">&times;</span>
+      </div>
+      <form id="contactForm" onsubmit="handleSendInquiry(event)">
+        <input type="hidden" id="inquiryAircraftId" />
+        
+        <label>Your Name</label>
+        <input type="text" id="inquirySenderName" placeholder="e.g. Jean Dupont" required />
+        
+        <label>Your Email</label>
+        <input type="email" id="inquirySenderEmail" placeholder="pilot@example.com" required />
+        
+        <label>Your Phone / WhatsApp (Optional)</label>
+        <input type="tel" id="inquirySenderPhone" placeholder="+33 6 12 34 56 78" />
+        
+        <label>Message</label>
+        <textarea id="inquiryMessage" rows="4" placeholder="Hi, I am interested in this aircraft. Is it available for an inspection flight?" required></textarea>
+        
+        <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">Send Inquiry to Seller</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- CLEAN FOOTER -->
+  <footer>
+    <p>© 2026 SkyBroker EU. Zero-Commission Aviation Marketplace.</p>
+  </footer>
+
+  <script>
+    // Initialize Firebase (Ensure your Firebase Config keys are added here)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+
+    // Contact Modal Logic
+    function openContactModal(aircraftId) {
+      document.getElementById('inquiryAircraftId').value = aircraftId;
+      document.getElementById('contactModal').style.display = 'block';
+    }
+
+    function closeContactModal() {
+      document.getElementById('contactModal').style.display = 'none';
+    }
+
+    // Handle Inquiry Submission to Firestore
+    async function handleSendInquiry(event) {
+      event.preventDefault();
+      
+      const aircraftId = document.getElementById('inquiryAircraftId').value;
+      const senderName = document.getElementById('inquirySenderName').value;
+      const senderEmail = document.getElementById('inquirySenderEmail').value;
+      const senderPhone = document.getElementById('inquirySenderPhone').value;
+      const message = document.getElementById('inquiryMessage').value;
+
+      try {
+        await db.collection('inquiries').add({
+          aircraftId: aircraftId,
+          senderName: senderName,
+          senderEmail: senderEmail,
+          senderPhone: senderPhone,
+          message: message,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        alert('Your message has been sent to the seller!');
+        closeContactModal();
+        document.getElementById('contactForm').reset();
+      } catch (error) {
+        console.error('Error sending inquiry:', error);
+        alert('Failed to send message. Please check your connection.');
+      }
+    }
+  </script>
+</body>
+</html>
