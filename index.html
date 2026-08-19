@@ -21,24 +21,56 @@
     nav ul { display: flex; list-style: none; gap: 1.5rem; }
     nav a { color: #94a3b8; text-decoration: none; font-weight: 500; }
     nav a:hover { color: #f8fafc; }
+    
     .hero { text-align: center; padding: 4rem 1rem; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); }
     .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
     .hero h1 span { color: #38bdf8; }
     .hero p { color: #94a3b8; font-size: 1.1rem; }
+    
     .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-    .card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
-    .btn-primary { background: #0284c7; color: #fff; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; }
+    .section-title { font-size: 1.75rem; margin-bottom: 0.5rem; color: #f8fafc; }
+    .section-subtitle { color: #94a3b8; margin-bottom: 1.5rem; }
+    
+    /* Grid Layouts */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+    .listings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; }
+    
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem; }
+    .card h3 { color: #38bdf8; margin-bottom: 1rem; font-size: 1.25rem; }
+    
+    /* Process Steps */
+    .step-number { font-size: 2rem; font-weight: 700; color: #38bdf8; margin-bottom: 0.5rem; }
+    .step-card h4 { font-size: 1.1rem; margin-bottom: 0.5rem; color: #f8fafc; }
+    .step-card p { color: #94a3b8; font-size: 0.9rem; }
+
+    /* Photo Gallery */
+    .gallery-main { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; background: #0f172a; }
+    .gallery-thumbs { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+    .gallery-thumbs img { width: 60px; height: 45px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 1px solid #334155; opacity: 0.7; }
+    .gallery-thumbs img:hover { opacity: 1; border-color: #38bdf8; }
+    
+    .price { font-size: 1.5rem; font-weight: 700; color: #38bdf8; margin: 0.75rem 0; }
+    
+    /* Forms & Inputs */
+    label { display: block; margin-top: 0.75rem; color: #94a3b8; font-size: 0.875rem; }
+    input, select, textarea { width: 100%; padding: 0.75rem; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; margin-top: 0.25rem; }
+    
+    .btn-primary { background: #0284c7; color: #fff; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 1rem; }
     .btn-primary:hover { background: #0369a1; }
     
+    .result-box { margin-top: 1rem; padding: 1rem; background: #0f172a; border-radius: 6px; border: 1px solid #334155; text-align: center; }
+    .result-val { font-size: 1.25rem; font-weight: 700; color: #38bdf8; }
+
     /* Modal Styles */
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); }
-    .modal-content { background: #1e293b; margin: 10% auto; padding: 2rem; border-radius: 12px; max-width: 500px; border: 1px solid #334155; position: relative; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .modal-content { background: #1e293b; margin: 5% auto; padding: 2rem; border-radius: 12px; max-width: 500px; border: 1px solid #334155; position: relative; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
     .close { color: #94a3b8; font-size: 1.5rem; cursor: pointer; }
-    form label { display: block; margin-top: 1rem; color: #94a3b8; font-size: 0.875rem; margin-bottom: 0.25rem; }
-    form input, form textarea { width: 100%; padding: 0.75rem; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; }
-    
+
     footer { text-align: center; padding: 2rem; border-top: 1px solid #334155; color: #64748b; font-size: 0.875rem; margin-top: 3rem; }
+    footer a { color: #38bdf8; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -48,6 +80,7 @@
     <nav>
       <ul>
         <li><a href="#marketplace">Marketplace</a></li>
+        <li><a href="#process">Buying Process</a></li>
         <li><a href="#tools">Tools</a></li>
       </ul>
     </nav>
@@ -58,12 +91,144 @@
     <p>Zero-commission European aviation marketplace.</p>
   </section>
 
-  <main class="container" id="marketplace">
-    <div class="card">
-      <h3>✈️ Live Marketplace Listings</h3>
-      <p style="color: #94a3b8; margin-top: 0.5rem;">Browse available aircraft across Europe.</p>
-      <!-- Aircraft cards render here -->
-    </div>
+  <main class="container">
+
+    <!-- AVIATION TOOLS SECTION -->
+    <section id="tools" style="margin-bottom: 3rem;">
+      <h2 class="section-title">🛠️ Pilot & Broker Tools</h2>
+      <p class="section-subtitle">Quick estimates for range and market valuation.</p>
+      
+      <div class="grid-2">
+        <!-- TOOL 1: RANGE CALCULATOR -->
+        <div class="card">
+          <h3>📍 Flight Range Mapping Tool</h3>
+          <label>Select Aircraft Type</label>
+          <select id="rangeAircraft" onchange="calculateRange()">
+            <option value="800">Cessna 172 (~800 NM)</option>
+            <option value="880">Piper Archer III (~880 NM)</option>
+            <option value="1200">Cirrus SR22 GTS (~1,200 NM)</option>
+            <option value="1400">Beechcraft Baron 58 (~1,400 NM)</option>
+          </select>
+
+          <label>Fuel Reserve</label>
+          <select id="fuelReserve" onchange="calculateRange()">
+            <option value="45">45 Minutes (Standard VFR)</option>
+            <option value="60">60 Minutes (IFR Reserve)</option>
+          </select>
+
+          <div class="result-box">
+            <div>Estimated Max Range:</div>
+            <div id="rangeResult" class="result-val">800 NM</div>
+          </div>
+        </div>
+
+        <!-- TOOL 2: VALUATION ESTIMATOR -->
+        <div class="card">
+          <h3>💶 Valuation Tool</h3>
+          <label>Aircraft Model</label>
+          <select id="valModel">
+            <option value="150000">Cessna 172 Series</option>
+            <option value="130000">Piper PA-28 Series</option>
+            <option value="270000">Cirrus SR22 Series</option>
+          </select>
+
+          <label>Total Time (Hours)</label>
+          <input type="number" id="valHours" placeholder="e.g. 2000" value="2000">
+
+          <button class="btn-primary" onclick="calculateValuation()">Estimate Value</button>
+
+          <div class="result-box">
+            <div>Estimated Market Value:</div>
+            <div id="valResult" class="result-val">€150,000</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARKETPLACE SECTION -->
+    <section id="marketplace" style="margin-bottom: 3rem;">
+      <h2 class="section-title">✈️ Live Marketplace Listings</h2>
+      <p class="section-subtitle">Browse available aircraft across Europe.</p>
+
+      <div class="listings-grid">
+        
+        <!-- Aircraft Card 1 -->
+        <div class="card">
+          <img id="main-img-1" class="gallery-main" src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=600&q=80" alt="Cessna 172">
+          <div class="gallery-thumbs">
+            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=600&q=80" onclick="switchImage('main-img-1', this.src)">
+            <img src="https://images.unsplash.com/photo-1519074069444-1ba4eae16748?auto=format&fit=crop&w=600&q=80" onclick="switchImage('main-img-1', this.src)">
+          </div>
+
+          <h4 style="margin-top: 1rem;">Cessna 172S Skyhawk SP</h4>
+          <p><strong>Year:</strong> 2008 | <strong>TT:</strong> 2,450 hrs</p>
+          <p><strong>Location:</strong> Paris (LFPB), France</p>
+          <div class="price">€185,000</div>
+          <button class="btn-primary" onclick="openContactModal('Cessna 172S Skyhawk')">Contact Seller</button>
+        </div>
+
+        <!-- Aircraft Card 2 -->
+        <div class="card">
+          <img id="main-img-2" class="gallery-main" src="https://images.unsplash.com/photo-1519074069444-1ba4eae16748?auto=format&fit=crop&w=600&q=80" alt="Piper Archer">
+          <div class="gallery-thumbs">
+            <img src="https://images.unsplash.com/photo-1519074069444-1ba4eae16748?auto=format&fit=crop&w=600&q=80" onclick="switchImage('main-img-2', this.src)">
+            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=600&q=80" onclick="switchImage('main-img-2', this.src)">
+          </div>
+
+          <h4 style="margin-top: 1rem;">Piper PA-28-181 Archer III</h4>
+          <p><strong>Year:</strong> 2003 | <strong>TT:</strong> 1,980 hrs</p>
+          <p><strong>Location:</strong> Munich (EDDM), Germany</p>
+          <div class="price">€142,000</div>
+          <button class="btn-primary" onclick="openContactModal('Piper Archer III')">Contact Seller</button>
+        </div>
+
+        <!-- Aircraft Card 3 -->
+        <div class="card">
+          <img id="main-img-3" class="gallery-main" src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=600&q=80" alt="Cirrus SR22">
+          <div class="gallery-thumbs">
+            <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=600&q=80" onclick="switchImage('main-img-3', this.src)">
+            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=600&q=80" onclick="switchImage('main-img-3', this.src)">
+          </div>
+
+          <h4 style="margin-top: 1rem;">Cirrus SR22 G2 GTS</h4>
+          <p><strong>Year:</strong> 2006 | <strong>TT:</strong> 1,650 hrs</p>
+          <p><strong>Location:</strong> Rotterdam (EHRD), Netherlands</p>
+          <div class="price">€295,000</div>
+          <button class="btn-primary" onclick="openContactModal('Cirrus SR22 GTS')">Contact Seller</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BUYING PROCESS SECTION -->
+    <section id="process" style="margin-bottom: 3rem;">
+      <h2 class="section-title">📋 How Buying Works</h2>
+      <p class="section-subtitle">A transparent, step-by-step process for purchasing aircraft on SkyBroker EU.</p>
+
+      <div class="grid-4">
+        <div class="card step-card">
+          <div class="step-number">01</div>
+          <h4>Submit Inquiry</h4>
+          <p>Click "Contact Seller" on any listing to send your details and questions directly through our portal.</p>
+        </div>
+        <div class="card step-card">
+          <div class="step-number">02</div>
+          <h4>Logbook Review</h4>
+          <p>Receive technical logs, maintenance records, ARC status, and avionics spec sheets for preliminary audit.</p>
+        </div>
+        <div class="card step-card">
+          <div class="step-number">03</div>
+          <h4>LOI & Pre-Purchase</h4>
+          <p>Sign a purchase agreement, secure funds in escrow, and perform a Part-145 maintenance inspection.</p>
+        </div>
+        <div class="card step-card">
+          <div class="step-number">04</div>
+          <h4>Closing & Delivery</h4>
+          <p>Complete national aviation registration transfer, release escrow funds, and take flight delivery.</p>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- DIRECT MESSAGING MODAL -->
@@ -83,23 +248,26 @@
         <input type="email" id="inquirySenderEmail" placeholder="pilot@example.com" required />
         
         <label>Your Phone / WhatsApp (Optional)</label>
-        <input type="tel" id="inquirySenderPhone" placeholder="+33 6 12 34 56 78" />
+        <input type="tel" id="inquirySenderPhone" placeholder="+004915213946017" />
         
         <label>Message</label>
         <textarea id="inquiryMessage" rows="4" placeholder="Hi, I am interested in this aircraft. Is it available for an inspection flight?" required></textarea>
         
-        <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">Send Inquiry to Seller</button>
+        <button type="submit" class="btn-primary">Send Inquiry to Seller</button>
       </form>
     </div>
   </div>
 
-  <!-- CLEAN FOOTER -->
   <footer>
     <p>© 2026 SkyBroker EU. Zero-Commission Aviation Marketplace.</p>
+    <p style="margin-top: 0.5rem; color: #94a3b8;">
+      📧 Email: <a href="mailto:skybrokereu@gmail.com">skybrokereu@gmail.com</a> | 
+      💬 WhatsApp: <a href="https://wa.me/4915213946017" target="_blank">+49 152 13946017</a>
+    </p>
   </footer>
 
   <script>
-    // 1. Firebase Config
+    // 1. Firebase Initialization
     const firebaseConfig = {
       apiKey: "AIzaSyAhEkz6bZiBZiS1lCIuA0z1HPzET_WEcrA",
       authDomain: "skybroker.firebaseapp.com",
@@ -115,9 +283,34 @@
     }
     const db = firebase.firestore();
 
-    // Contact Modal Logic
-    function openContactModal(aircraftId) {
-      document.getElementById('inquiryAircraftId').value = aircraftId;
+    // 2. Photo Gallery Switcher
+    function switchImage(targetImgId, newSrc) {
+      document.getElementById(targetImgId).src = newSrc;
+    }
+
+    // 3. Flight Range Calculator
+    function calculateRange() {
+      const baseRange = parseInt(document.getElementById('rangeAircraft').value);
+      const reserve = parseInt(document.getElementById('fuelReserve').value);
+      const deduction = reserve === 60 ? 50 : 0;
+      const finalRange = baseRange - deduction;
+      document.getElementById('rangeResult').innerText = `${finalRange} NM`;
+    }
+
+    // 4. Valuation Estimator
+    function calculateValuation() {
+      const baseVal = parseInt(document.getElementById('valModel').value);
+      const hours = parseInt(document.getElementById('valHours').value) || 2000;
+      
+      const adjustment = (2000 - hours) * 20;
+      const estimatedPrice = Math.max(50000, baseVal + adjustment);
+      
+      document.getElementById('valResult').innerText = `€${estimatedPrice.toLocaleString()}`;
+    }
+
+    // 5. Contact Modal Logic
+    function openContactModal(aircraftTitle) {
+      document.getElementById('inquiryAircraftId').value = aircraftTitle;
       document.getElementById('contactModal').style.display = 'block';
     }
 
@@ -125,7 +318,7 @@
       document.getElementById('contactModal').style.display = 'none';
     }
 
-    // Handle Inquiry Submission to Firestore
+    // 6. Firestore Messaging Submission
     async function handleSendInquiry(event) {
       event.preventDefault();
       
@@ -137,7 +330,7 @@
 
       try {
         await db.collection('inquiries').add({
-          aircraftId: aircraftId,
+          aircraft: aircraftId,
           senderName: senderName,
           senderEmail: senderEmail,
           senderPhone: senderPhone,
